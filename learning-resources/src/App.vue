@@ -1,11 +1,22 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
+
+  <Header :title="applicationName"/>
+
+  <SwitchResources />
 
 </template>
 
-<style scoped>
+<script lang="ts">
+import Header from "@/components/layout/Header.vue";
+import SwitchResources from "@/components/learning-resources/SwitchResources.vue";
 
-</style>
+export default {
+  components: {SwitchResources, Header},
+
+  data() {
+    return {applicationName: 'Remember Me'}
+  }
+
+}
+
+</script>
