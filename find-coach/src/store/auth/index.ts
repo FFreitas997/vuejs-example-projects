@@ -7,9 +7,7 @@ import type {User} from "@/store/auth/User.ts";
 const authModule: Module<AuthState, any> = {
   namespaced: true,
   state() {
-    return {
-      user: null,
-    }
+    return { user: null, hasAutoLogout: false }
   },
   getters: getters,
   mutations: mutations,
@@ -20,4 +18,5 @@ export default authModule
 
 export interface AuthState {
   user: User | null;
+  hasAutoLogout: boolean;
 }

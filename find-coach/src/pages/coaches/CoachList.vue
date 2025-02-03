@@ -38,6 +38,9 @@ export default {
       return this.coaches.filter((coach: Coach) => {
         return this.filters.some((filter: string) => coach.areas.includes(filter))
       });
+    },
+    isCoachAuthenticatedUser(): boolean {
+      return this.coaches.some((coach: Coach) => coach.id === this.user.userId);
     }
   },
   methods: {
@@ -62,8 +65,10 @@ export default {
       <base-card>
         <div class="controls">
           <base-button @click="loadCoaches(true)" :mode="ButtonMode.Outline">Refresh</base-button>
-          <base-button v-if="!isLoading && !isAuthenticated" :link="true" :to="'/register'">Register
-            as Coach
+          <base-button v-show="!isAuthenticated" :link="true" :to="'/auth?redirect=register'">Login to Register as Coach</base-button>
+          <base-button v-if="!isCoachAuthenticatedUser && !isLoading && isAuthenticated"
+                       :link="true" :to="'/register'">
+            Register as Coach
           </base-button>
         </div>
         <div v-if="isLoading">

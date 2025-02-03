@@ -4,5 +4,8 @@ import type {User} from "@/store/auth/User.ts";
 export default {
   setUser(state: AuthState, payload: User) {
     state.user = payload;
+  },
+  setAutoLogout(state: AuthState, payload: boolean) {
+    state.hasAutoLogout = payload;
   }
 }

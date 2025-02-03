@@ -14,13 +14,15 @@ export default defineComponent({
     return {error: null, isLoading: false}
   },
   computed: {
-    ...mapGetters('auth', ['user'])
+    ...mapGetters('auth', ['user', "isAuthenticated"])
   },
   methods: {
     async registerCoach(coach: Coach) {
       try {
+        if (!this.isAuthenticated)
+          throw new Error('You need to login to register as a coach')
         this.isLoading = true
-        await this.$store.dispatch('coaches/registerCoach', {coach: coach, userID: this.user.id})
+        await this.$store.dispatch('coaches/registerCoach', {coach: coach, user: this.user})
         this.$router.replace({name: 'coaches'})
       } catch (e) {
         this.error = e.message || 'An error occurred while registering coach'

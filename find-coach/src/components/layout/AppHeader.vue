@@ -1,3 +1,23 @@
+<script lang="ts">
+import {defineComponent} from "vue";
+import {mapGetters} from "vuex";
+import BaseButton from "@/components/ui/BaseButton.vue";
+
+export default defineComponent({
+  name: 'AppHeader',
+  components: {BaseButton},
+  computed: {
+    ...mapGetters('auth', ['isAuthenticated'])
+  },
+  methods: {
+    logout(): void {
+      this.$store.dispatch('auth/logout');
+      this.$router.replace('/auth');
+    }
+  }
+})
+</script>
+
 <template>
   <header>
     <nav>
@@ -8,8 +28,14 @@
         <li>
           <router-link to="/coaches">All Coaches</router-link>
         </li>
-        <li>
+        <li v-if="isAuthenticated">
           <router-link to="/requests">Requests</router-link>
+        </li>
+        <li v-else>
+          <router-link to="/auth">Login</router-link>
+        </li>
+        <li v-show="isAuthenticated">
+          <base-button @click="logout">Logout</base-button>
         </li>
       </ul>
     </nav>

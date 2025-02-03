@@ -2,6 +2,7 @@ import {v4 as uuidv4} from 'uuid';
 import type {ActionContext} from "vuex";
 import type {RequestsState} from "@/store/requests/index.ts";
 import {Request} from "@/store/requests/Request.ts";
+import type {User} from "@/store/auth/User.ts";
 
 export default {
   async contactCoach(context: ActionContext<RequestsState, any>, payload: Request) {
@@ -24,11 +25,11 @@ export default {
     context.commit('addRequest', request);
   },
 
-  async fetchRequests(context: ActionContext<RequestsState, any>, coachId: string) {
+  async fetchRequests(context: ActionContext<RequestsState, any>, user: User) {
     if (!context.getters['shouldUpdate']) {
       return;
     }
-    const response = await fetch(`https://find-coach-a805e-default-rtdb.europe-west1.firebasedatabase.app/requests/${coachId}.json`);
+    const response = await fetch(`https://find-coach-a805e-default-rtdb.europe-west1.firebasedatabase.app/requests/${user.userId}.json?auth=${user.token}`);
     const responseData = await response.json();
 
     if (!response.ok) {

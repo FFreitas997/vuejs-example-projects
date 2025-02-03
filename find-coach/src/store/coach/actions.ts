@@ -2,12 +2,13 @@ import {Coach} from "@/models/Coach.ts";
 import type {ActionContext} from "vuex";
 import type {CoachState} from "@/store/coach/index.ts";
 import {v4 as uuidv4} from 'uuid';
+import type {User} from "@/store/auth/User.ts";
 
 export default {
 
   async registerCoach(context: ActionContext<CoachState, any>, data: {
     coach: Coach,
-    userID: string
+    user: User
   }) {
     const coach = new Coach(
       uuidv4(),
@@ -17,7 +18,7 @@ export default {
       data.coach.description,
       data.coach.hourlyRate
     );
-    const response = await fetch(`https://find-coach-a805e-default-rtdb.europe-west1.firebasedatabase.app/coaches/${data.userID}.json`, {
+    const response = await fetch(`https://find-coach-a805e-default-rtdb.europe-west1.firebasedatabase.app/coaches/${data.user.userId}.json?auth=${data.user.token}`, {
       method: 'PUT',
       body: JSON.stringify(coach),
     });

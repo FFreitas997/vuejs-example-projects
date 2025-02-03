@@ -2,10 +2,24 @@
 
 import AppHeader from "@/components/layout/AppHeader.vue";
 import CoachFilter from "@/components/coaches/CoachFilter.vue";
+import {mapGetters} from "vuex";
 
 export default {
   name: 'App',
-  components: {CoachFilter, AppHeader}
+  components: {CoachFilter, AppHeader},
+  computed: {
+    ...mapGetters('auth', ['hasAutoLogout'])
+  },
+  created() {
+    console.log('App created');
+    this.$store.dispatch('auth/tryLogin');
+  },
+  watch: {
+    hasAutoLogout(current, oldValue) {
+      if (current && current !== oldValue)
+        this.$router.replace('/auth');
+    }
+  }
 }
 
 </script>

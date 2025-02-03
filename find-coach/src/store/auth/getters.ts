@@ -6,5 +6,8 @@ export default {
   },
   isAuthenticated(state: AuthState) {
     return state.user !== null;
+  },
+  hasAutoLogout(state: AuthState) {
+    return state.hasAutoLogout;
   }
 }

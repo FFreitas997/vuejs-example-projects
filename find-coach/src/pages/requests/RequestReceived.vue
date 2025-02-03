@@ -18,8 +18,10 @@ export default defineComponent({
   },
   async created() {
     try {
+      if (!this.isAuthenticated)
+        throw new Error('You need to login to view requests')
       this.isLoading = true
-      await this.$store.dispatch('requests/fetchRequests', this.user.id)
+      await this.$store.dispatch('requests/fetchRequests', this.user)
     } catch (e) {
       this.error = e.message || 'An error occurred while loading requests'
     } finally {
